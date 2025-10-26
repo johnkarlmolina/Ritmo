@@ -1,42 +1,56 @@
 import { ThemedView } from '@/components/themed-view';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router'; // ✅ Import router for navigation
 import React, { useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function Step() {
+  const router = useRouter(); // ✅ Initialize router
   const [step, setStep] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
- const steps = [
-  {
-    icon: 'home-outline',
-    title: 'Daily Task',
-    text: "You'll see all your daily tasks on the home screen. Each task has easy steps to follow!",
-  },
-  {
-    icon: 'checkmark-circle-outline', // ✅ changed to check icon
-    title: 'Complete Tasks',
-    text: 'Click on a task to see video guides and step-by-step instructions. Check them off when you’re done!',
-  },
-  {
-    icon: 'star-outline', // ⭐ changed to star icon
-    title: 'Earn Stars',
-    text: 'Every time you complete a task, you earn stars! Collect stars to unlock special rewards.',
-  },
-  {
-    icon: 'gift-outline', // 🎁 changed to gift icon
-    title: 'Get Rewards',
-    text: 'Unlock badges and achievements as you complete more tasks. You’re doing great!',
-  },
-];
+  const steps = [
+    {
+      icon: 'home-outline',
+      title: 'Daily Task',
+      text: "You'll see all your daily tasks on the home screen. Each task has easy steps to follow!",
+    },
+    {
+      icon: 'checkmark-circle-outline',
+      title: 'Complete Tasks',
+      text: 'Click on a task to see video guides and step-by-step instructions. Check them off when you’re done!',
+    },
+    {
+      icon: 'star-outline',
+      title: 'Earn Stars',
+      text: 'Every time you complete a task, you earn stars! Collect stars to unlock special rewards.',
+    },
+    {
+      icon: 'gift-outline',
+      title: 'Get Rewards',
+      text: 'Unlock badges and achievements as you complete more tasks. You’re doing great!',
+    },
+  ];
 
   const handleNext = () => {
+    if (step === steps.length - 1) {
+      // ✅ Go to TypeName.tsx when finish
+      router.push('/typename');
+      return;
+    }
+
+    // 🟢 Animate fade for next step
     Animated.sequence([
       Animated.timing(fadeAnim, { toValue: 0, duration: 250, useNativeDriver: true }),
       Animated.timing(fadeAnim, { toValue: 1, duration: 250, useNativeDriver: true }),
     ]).start(() => {
       setStep((prev) => (prev + 1) % steps.length);
     });
+  };
+
+  const handleSkip = () => {
+    // ✅ Skip and go to TypeName.tsx
+    router.push('/typename');
   };
 
   const current = steps[step];
@@ -65,7 +79,7 @@ export default function Step() {
         </Text>
       </Pressable>
 
-      <Pressable>
+      <Pressable onPress={handleSkip}>
         <Text style={styles.skipText}>Skip Tutorial</Text>
       </Pressable>
     </ThemedView>

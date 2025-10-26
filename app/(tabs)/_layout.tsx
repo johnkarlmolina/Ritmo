@@ -8,9 +8,12 @@ export default function Layout() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="index" />         {/* Login */}
-      <Stack.Screen name="landingpage" />   {/* Landing page */}
-      <Stack.Screen name="step" />          {/* Step page if needed */}
+      <Stack.Screen name="index" />
+      <Stack.Screen name="landingpage" />
+      <Stack.Screen name="step" />
+      <Stack.Screen name="typename" />
+      <Stack.Screen name="greetings" />
+      <Stack.Screen name="home" /> {/* ✅ Add this */}
     </Stack>
   );
 }
